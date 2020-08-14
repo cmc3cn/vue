@@ -32,6 +32,9 @@ export const emptyNode = new VNode('', {}, [])
 
 const hooks = ['create', 'activate', 'update', 'remove', 'destroy']
 
+const noHydrateAttr = config.noHydrateAttr
+const optimizeHydrateMode = !!config.optimizeHydrateMode
+
 function sameVnode (a, b) {
   return (
     a.key === b.key && (
@@ -510,6 +513,10 @@ export function createPatchFunction (backend) {
       return
     }
 
+    if(optimizeHydrateMode && oldVnode.data && oldVnode.data.attrs && oldVnode.data.attrs[noHydrateAttr] != null){
+        return;
+    }
+
     if (isDef(vnode.elm) && isDef(ownerArray)) {
       // clone reused vnode
       vnode = ownerArray[index] = cloneVNode(vnode)
@@ -594,6 +601,13 @@ export function createPatchFunction (backend) {
 
   // Note: this is a browser-only function so we can assume elms are DOM nodes.
   function hydrate (elm, vnode, insertedVnodeQueue, inVPre) {
+
+    if(optimizeHydrateMode){
+      if(vnode.isStatic || vnode.data && vnode.data.attrs &&  vnode.data.attrs[noHydrateAttr] != null){
+          return true;
+      }  
+    }
+
     let i
     const { tag, data, children } = vnode
     inVPre = inVPre || (data && data.pre)

@@ -96,6 +96,17 @@ export default ({
   isReservedAttr: no,
 
   /**
+   * part hydrate attr name
+   */
+  noHydrateAttr: '_noHydrate',
+
+  /**
+   * optimized hydrate
+   */
+  optimizeHydrateMode: true,
+
+
+  /**
    * Check if a tag is an unknown element.
    * Platform-dependent.
    */
