@@ -6270,10 +6270,8 @@
         return
       }
 
-      if(optimizeHydrateMode && oldVnode && oldVnode.data && oldVnode.data.attrs){
-          if(oldVnode.data.attrs[noHydrateAttr] === '1'){
-              return;
-          }
+      if(optimizeHydrateMode && oldVnode.data && oldVnode.data.attrs && oldVnode.data.attrs[noHydrateAttr] != null){
+          return;
       }
 
       if (isDef(vnode.elm) && isDef(ownerArray)) {
@@ -6361,7 +6359,7 @@
     // Note: this is a browser-only function so we can assume elms are DOM nodes.
     function hydrate (elm, vnode, insertedVnodeQueue, inVPre) {
       if(optimizeHydrateMode){
-        if(vnode.isStatic || elm.getAttribute && elm.getAttribute(noHydrateAttr) === "1"){
+        if(vnode.isStatic || vnode.data && vnode.data.attrs &&  vnode.data.attrs[noHydrateAttr] != null){
             return true;
         }  
       }

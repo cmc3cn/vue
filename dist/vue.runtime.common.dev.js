@@ -6266,10 +6266,8 @@ function createPatchFunction (backend) {
       return
     }
 
-    if(optimizeHydrateMode && oldVnode && oldVnode.data && oldVnode.data.attrs){
-        if(oldVnode.data.attrs[noHydrateAttr] === '1'){
-            return;
-        }
+    if(optimizeHydrateMode && oldVnode.data && oldVnode.data.attrs && oldVnode.data.attrs[noHydrateAttr] != null){
+        return;
     }
 
     if (isDef(vnode.elm) && isDef(ownerArray)) {
@@ -6353,12 +6351,11 @@ function createPatchFunction (backend) {
   // Note: style is excluded because it relies on initial clone for future
   // deep updates (#7063).
   var isRenderedModule = makeMap('attrs,class,staticClass,staticStyle,key');
-  var ttyy = 0;
+
   // Note: this is a browser-only function so we can assume elms are DOM nodes.
   function hydrate (elm, vnode, insertedVnodeQueue, inVPre) {
-    console.log('======',ttyy++)
     if(optimizeHydrateMode){
-      if(vnode.isStatic || elm.getAttribute && elm.getAttribute(noHydrateAttr) === "1"){
+      if(vnode.isStatic || vnode.data && vnode.data.attrs &&  vnode.data.attrs[noHydrateAttr] != null){
           return true;
       }  
     }
@@ -8442,3 +8439,6 @@ if (inBrowser) {
   }, 0);
 }
 
+/*  */
+
+module.exports = Vue;
