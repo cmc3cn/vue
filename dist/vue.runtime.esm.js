@@ -6369,6 +6369,7 @@ function createPatchFunction (backend) {
   function hydrate (elm, vnode, insertedVnodeQueue, inVPre) {
     if(optimizeHydrateMode){
       if(vnode.isStatic || vnode.data && vnode.data.attrs &&  vnode.data.attrs[noHydrateAttr] != null){
+          vnode.elm = elm;
           return true;
       }  
     }
